@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introducción al Diseño Web</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: rgba(255, 252, 245, 0.92);
+      --ink: #122033;
+      --muted: #5d6778;
+      --line: rgba(18, 32, 51, 0.12);
+      --accent: #ff7a59;
+      --accent-dark: #d45130;
+      --teal: #138a7d;
+      --gold: #f3b13d;
+      --deep: #16324f;
+      --shadow: 0 18px 45px rgba(18, 32, 51, 0.12);
+      --transition: 220ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Nunito", "Trebuchet MS", sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255, 122, 89, 0.22), transparent 20%),
+        radial-gradient(circle at 88% 14%, rgba(19, 138, 125, 0.18), transparent 18%),
+        radial-gradient(circle at 20% 84%, rgba(243, 177, 61, 0.16), transparent 20%),
+        linear-gradient(180deg, #fff9ef 0%, #f6efe2 48%, #f8f4ee 100%);
+      min-height: 100vh;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(18, 32, 51, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(18, 32, 51, 0.03) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: -1;
+      animation: float 9s ease-in-out infinite;
+    }
+
+    .orb-a {
+      width: 180px;
+      height: 180px;
+      background: rgba(255, 122, 89, 0.15);
+      top: 8%;
+      left: -40px;
+    }
+
+    .orb-b {
+      width: 140px;
+      height: 140px;
+      background: rgba(19, 138, 125, 0.18);
+      bottom: 10%;
+      right: 4%;
+      animation-delay: -2.5s;
+    }
+
+    .orb-c {
+      width: 100px;
+      height: 100px;
+      background: rgba(243, 177, 61, 0.22);
+      top: 42%;
+      right: 10%;
+      animation-delay: -5s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-18px);
+      }
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(247, 241, 230, 0.76);
+      border-bottom: 1px solid rgba(18, 32, 51, 0.08);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, var(--accent), var(--gold));
+      color: #fff;
+      box-shadow: var(--shadow);
+      font-size: 1.05rem;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--deep);
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: background var(--transition), transform var(--transition), color var(--transition);
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: rgba(19, 138, 125, 0.12);
+      color: var(--teal);
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      padding: 36px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      padding: 10px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(18, 32, 51, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+      font-weight: 800;
+      color: var(--teal);
+      box-shadow: 0 8px 22px rgba(18, 32, 51, 0.06);
+    }
+
+    .hero h1 {
+      margin: 18px 0 14px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.4rem, 4vw, 4.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+    }
+
+    .hero h1 span {
+      color: var(--accent-dark);
+    }
+
+    .hero p {
+      max-width: 62ch;
+      font-size: 1.08rem;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .button {
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(18, 32, 51, 0.12);
+    }
+
+    .button-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), #ff9d66);
+    }
+
+    .button-secondary {
+      color: var(--deep);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(18, 32, 51, 0.08);
+    }
+
+    .hero-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .note-card {
+      padding: 22px;
+      border-radius: 28px;
+      background: var(--paper);
+      border: 1px solid rgba(18, 32, 51, 0.08);
+      box-shadow: var(--shadow);
+      transform-origin: center;
+    }
+
+    .note-card:nth-child(1) {
+      transform: rotate(-3deg);
+    }
+
+    .note-card:nth-child(2) {
+      transform: rotate(2deg);
+      margin-left: 24px;
+    }
+
+    .note-card h3 {
+      margin: 0 0 8px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.2rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(18, 32, 51, 0.08);
+      box-shadow: 0 12px 24px rgba(18, 32, 51, 0.06);
+    }
+
+    .stat strong {
+      display: block;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 4px;
+    }
+
+    main {
+      padding-bottom: 60px;
+    }
+
+    .section {
+      margin-top: 34px;
+      padding: 32px;
+      border-radius: 32px;
+      background: var(--paper);
+      border: 1px solid rgba(18, 32, 51, 0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .section.reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 600ms ease, transform 600ms ease;
+    }
+
+    .section.reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .section-kicker {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    .section h2 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .topic-grid,
+    .standards-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .topic-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .standards-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-bottom: 22px;
+    }
+
+    .topic-card,
+    .standard-card,
+    .info-panel,
+    .visual-panel,
+    .concept-detail,
+    .part-detail,
+    .quiz-card,
+    .challenge-card,
+    .progress-card {
+      padding: 20px;
+      border-radius: 24px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .topic-card {
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .topic-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(18, 32, 51, 0.08);
+      border-color: rgba(19, 138, 125, 0.22);
+    }
+
+    .topic-card strong,
+    .standard-card h3,
+    .info-panel h3,
+    .concept-detail h3,
+    .part-detail h3,
+    .quiz-card h3,
+    .challenge-card h3 {
+      display: block;
+      margin: 0 0 10px;
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .choice-bar,
+    .concept-buttons,
+    .quiz-progress,
+    .check-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .choice-bar {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .pill-button,
+    .concept-button,
+    .layout-button,
+    .quiz-option,
+    .url-control {
+      font: inherit;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .pill-button {
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--deep);
+      font-weight: 800;
+    }
+
+    .pill-button:hover,
+    .pill-button[aria-pressed="true"] {
+      background: rgba(19, 138, 125, 0.12);
+      border-color: rgba(19, 138, 125, 0.25);
+      color: var(--teal);
+      transform: translateY(-2px);
+    }
+
+    .dual-panel,
+    .concept-layout,
+    .lab-grid,
+    .challenge-layout,
+    .quiz-shell {
+      display: grid;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .dual-panel {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .concept-layout {
+      grid-template-columns: 0.9fr 1.1fr;
+    }
+
+    .lab-grid {
+      grid-template-columns: 1fr 0.95fr;
+    }
+
+    .challenge-layout {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .quiz-shell {
+      grid-template-columns: 0.72fr 1.28fr;
+    }
+
+    .analogy,
+    .example-box {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 18px;
+    }
+
+    .analogy {
+      background: rgba(255, 122, 89, 0.08);
+      border: 1px dashed rgba(255, 122, 89, 0.28);
+    }
+
+    .example-box {
+      background: rgba(22, 50, 79, 0.05);
+      border: 1px dashed rgba(22, 50, 79, 0.15);
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .mini-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(22, 50, 79, 0.04);
+    }
+
+    .mini-item span {
+      flex: 0 0 auto;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      background: rgba(19, 138, 125, 0.14);
+      color: var(--teal);
+    }
+
+    .browser-window {
+      padding: 18px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #f7fbff, #edf6fa);
+      border: 1px solid rgba(19, 138, 125, 0.18);
+      height: 100%;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .browser-dots i {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .browser-dots i:nth-child(1) { background: #ff5f57; }
+    .browser-dots i:nth-child(2) { background: #ffbd2e; }
+    .browser-dots i:nth-child(3) { background: #28c840; }
+
+    .address-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding: 14px 16px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid rgba(19, 138, 125, 0.12);
+      margin-bottom: 18px;
+    }
+
+    .url-chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(18, 32, 51, 0.05);
+      font-weight: 700;
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+    }
+
+    .url-chip.active {
+      background: rgba(255, 122, 89, 0.14);
+      color: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+
+    .browser-screen {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .screen-block {
+      padding: 16px;
+      border-radius: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .screen-block.header { background: linear-gradient(135deg, #16324f, #245379); }
+    .screen-block.content { background: linear-gradient(135deg, #138a7d, #1bbba9); }
+    .screen-block.footer {
+      background: linear-gradient(135deg, #f3b13d, #f7ca69);
+      color: var(--deep);
+    }
+
+    .concept-button {
+      text-align: left;
+      padding: 18px 18px 18px 20px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .concept-button strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1rem;
+      color: var(--deep);
+    }
+
+    .concept-button span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .concept-button:hover,
+    .concept-button[aria-pressed="true"] {
+      transform: translateX(6px);
+      border-color: rgba(255, 122, 89, 0.3);
+      background: rgba(255, 122, 89, 0.08);
+    }
+
+    .concept-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(19, 138, 125, 0.1);
+      color: var(--teal);
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .url-lab {
+      margin-top: 24px;
+      padding: 22px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(22, 50, 79, 0.96), rgba(16, 29, 46, 0.96));
+      color: #edf4ff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .url-lab h3 {
+      margin-top: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.2rem;
+    }
+
+    .url-view {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 16px;
+      word-break: break-word;
+    }
+
+    .url-part {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 8px;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .url-part.active {
+      background: rgba(255, 122, 89, 0.22);
+      color: #fff1ea;
+    }
+
+    .url-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .url-control {
+      font-weight: 800;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #edf4ff;
+      padding: 10px 14px;
+    }
+
+    .url-control:hover,
+    .url-control[aria-pressed="true"] {
+      background: rgba(255, 122, 89, 0.18);
+      border-color: rgba(255, 122, 89, 0.38);
+    }
+
+    .url-explanation {
+      margin-top: 16px;
+      color: #d5e4ff;
+      min-height: 52px;
+    }
+
+    .page-map {
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      border-radius: 24px;
+      background: #f7fbff;
+      border: 1px solid rgba(22, 50, 79, 0.09);
+    }
+
+    .layout-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .layout-main {
+      display: grid;
+      grid-template-columns: 1.5fr 0.75fr;
+      gap: 10px;
+    }
+
+    .layout-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .layout-button {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(22, 50, 79, 0.12);
+      border-radius: 18px;
+      background: #fff;
+      padding: 16px;
+      color: var(--deep);
+      font-weight: 800;
+    }
+
+    .layout-button small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .layout-button:hover,
+    .layout-button[aria-pressed="true"] {
+      transform: translateY(-2px);
+      border-color: rgba(19, 138, 125, 0.28);
+      background: rgba(19, 138, 125, 0.08);
+    }
+
+    .code-preview {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #101b2d;
+      color: #d8e7ff;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.93rem;
+      overflow: auto;
+    }
+
+    .code-preview .tag { color: #7bdcff; }
+    .code-preview .name { color: #ffd37d; }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-weight: 800;
+    }
+
+    .toggle {
+      position: relative;
+      width: 58px;
+      height: 32px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: rgba(18, 32, 51, 0.14);
+      transition: background var(--transition);
+      flex: 0 0 auto;
+    }
+
+    .toggle::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform var(--transition);
+      box-shadow: 0 6px 14px rgba(18, 32, 51, 0.18);
+    }
+
+    .toggle[aria-pressed="true"] {
+      background: var(--teal);
+    }
+
+    .toggle[aria-pressed="true"]::after {
+      transform: translateX(26px);
+    }
+
+    .meter {
+      margin-top: 18px;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(18, 32, 51, 0.08);
+      overflow: hidden;
+    }
+
+    .meter-bar {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--gold), var(--teal));
+      transition: width 320ms ease;
+    }
+
+    .score-big {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.6rem, 6vw, 4.8rem);
+      line-height: 0.92;
+      margin: 0 0 10px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+      margin-top: 14px;
+      background: rgba(19, 138, 125, 0.12);
+      color: var(--teal);
+    }
+
+    .progress-card strong {
+      display: block;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .quiz-option {
+      text-align: left;
+      width: 100%;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--deep);
+      font-weight: 800;
+    }
+
+    .quiz-option:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: rgba(19, 138, 125, 0.24);
+      background: rgba(19, 138, 125, 0.08);
+    }
+
+    .quiz-option.correct {
+      border-color: rgba(19, 138, 125, 0.34);
+      background: rgba(19, 138, 125, 0.14);
+      color: var(--teal);
+    }
+
+    .quiz-option.wrong {
+      border-color: rgba(255, 122, 89, 0.34);
+      background: rgba(255, 122, 89, 0.12);
+      color: var(--accent-dark);
+    }
+
+    .quiz-feedback {
+      min-height: 58px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .dual-panel,
+      .concept-layout,
+      .lab-grid,
+      .challenge-layout,
+      .quiz-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .topic-grid,
+      .standards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(100% - 20px, 1120px);
+      }
+
+      .section {
+        padding: 24px 18px;
+        border-radius: 24px;
+      }
+
+      .topic-grid,
+      .standards-grid,
+      .layout-main {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 20px;
+      }
+
+      .nav-links {
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 6px;
+        scrollbar-width: thin;
+      }
+
+      .nav-links a {
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-actions .button,
+      .quiz-actions .button {
+        width: 100%;
+      }
+
+      .url-controls {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .url-control,
+      .pill-button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .choice-bar {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .note-card:nth-child(2) {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        font-size: 15px;
+      }
+
+      .orb {
+        display: none;
+      }
+
+      .topbar {
+        position: static;
+      }
+
+      .topbar-inner {
+        gap: 12px;
+        padding: 12px 0;
+      }
+
+      .brand {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.98rem;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+      }
+
+      .hero {
+        padding: 18px 0 10px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2rem, 11vw, 2.8rem);
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .hero-stack {
+        gap: 12px;
+      }
+
+      .note-card,
+      .note-card:nth-child(1),
+      .note-card:nth-child(2) {
+        padding: 18px;
+        margin-left: 0;
+        transform: none;
+      }
+
+      .section {
+        margin-top: 22px;
+        padding: 20px 14px;
+      }
+
+      .topic-card,
+      .standard-card,
+      .info-panel,
+      .visual-panel,
+      .concept-detail,
+      .part-detail,
+      .quiz-card,
+      .challenge-card,
+      .progress-card {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .section-head {
+        margin-bottom: 20px;
+      }
+
+      .address-bar {
+        border-radius: 22px;
+        padding: 12px;
+      }
+
+      .url-chip {
+        width: 100%;
+        text-align: center;
+      }
+
+      .url-view {
+        padding: 14px;
+        font-size: 0.95rem;
+      }
+
+      .badge {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .check-item {
+        align-items: flex-start;
+      }
+
+      .score-big {
+        font-size: 2.7rem;
+      }
+
+    }
+
+    @media (max-width: 420px) {
+      .url-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .button,
+      .pill-button,
+      .url-control,
+      .quiz-option,
+      .layout-button,
+      .concept-button {
+        font-size: 0.95rem;
+      }
+
+      .eyebrow {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="orb orb-c"></div>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">&lt;/&gt;</div>
+        <div>Introducción al Diseño Web</div>
+      </div>
+      <nav class="nav-links" aria-label="Secciones del tema">
+        <a href="#inicio" class="active">Inicio</a>
+        <a href="#panorama">Resumen</a>
+        <a href="#diferencias">Página/Sitio</a>
+        <a href="#conceptos">Conceptos</a>
+        <a href="#elementos">Elementos</a>
+        <a href="#estandares">W3C</a>
+        <a href="#quiz">Quiz</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="inicio">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Clase visual e interactiva</div>
+          <h1>Aprender diseño web <span>sin memorizar de más</span></h1>
+          <p>
+            Esta página resume los conceptos más importantes de la materia de páginas web con ejemplos sencillos,
+            comparaciones visuales, pequeños laboratorios y un mini quiz para reforzar lo aprendido.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#panorama">Empezar recorrido</a>
+            <a class="button button-secondary" href="#quiz">Ir al quiz final</a>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <strong>4</strong>
+              temas principales explicados paso a paso
+            </div>
+            <div class="stat">
+              <strong>3</strong>
+              actividades para explorar y relacionar ideas
+            </div>
+            <div class="stat">
+              <strong>1</strong>
+              quiz para comprobar cuánto recuerdan
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-stack">
+          <article class="note-card">
+            <h3>Página web</h3>
+            <p>Es un documento que se ve en el navegador. Puede tener texto, imágenes, videos, botones y enlaces.</p>
+          </article>
+          <article class="note-card">
+            <h3>Sitio web</h3>
+            <p>Es el conjunto de varias páginas relacionadas que comparten un mismo dominio y un mismo propósito.</p>
+          </article>
+          <article class="note-card">
+            <h3>Idea clave</h3>
+            <p>Un sitio web es como una biblioteca. Cada página web es uno de los libros que vive dentro de ella.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="panorama">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Panorama general</span>
+          <h2>¿Qué vamos a aprender?</h2>
+        </div>
+        <p>Primero ubicamos el mapa completo del tema para que cada concepto tenga sentido antes de profundizar.</p>
+      </div>
+
+      <div class="topic-grid">
+        <article class="topic-card">
+          <strong>Páginas web y sitio web</strong>
+          Entenderemos la diferencia entre una sola página y un conjunto de páginas conectadas.
+        </article>
+        <article class="topic-card">
+          <strong>Conceptos básicos</strong>
+          Revisaremos dominio, URL, hosting y applets con ejemplos cotidianos.
+        </article>
+        <article class="topic-card">
+          <strong>Elementos de una página</strong>
+          Identificaremos las partes más comunes de la estructura visual y semántica.
+        </article>
+        <article class="topic-card">
+          <strong>Estándares W3C</strong>
+          Veremos por qué las buenas prácticas ayudan a que la web funcione mejor.
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="diferencias">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Tema 1</span>
+          <h2>Página web y sitio web</h2>
+        </div>
+        <p>Haz clic para comparar. La idea es separar lo individual de lo colectivo.</p>
+      </div>
+
+      <div class="choice-bar" role="tablist" aria-label="Comparar página y sitio web">
+        <button class="pill-button" type="button" data-view="pagina" aria-pressed="true">Página web</button>
+        <button class="pill-button" type="button" data-view="sitio" aria-pressed="false">Sitio web</button>
+      </div>
+
+      <div class="dual-panel">
+        <article class="info-panel" id="view-panel">
+          <h3>Página web</h3>
+          <p>
+            Una página web es un documento digital que se abre en un navegador. Tiene una dirección propia y suele mostrar
+            información específica, por ejemplo: "Inicio", "Contacto" o "Galería".
+          </p>
+          <div class="analogy">
+            <strong>Comparación sencilla:</strong>
+            una página web es como una hoja de un cuaderno. Tiene contenido puntual y cumple una función concreta.
+          </div>
+          <div class="mini-list">
+            <div class="mini-item">
+              <span>1</span>
+              <div><strong>Unidad individual.</strong> Se ve como una sola pantalla o documento.</div>
+            </div>
+            <div class="mini-item">
+              <span>2</span>
+              <div><strong>Tema específico.</strong> Puede hablar solo de una sección del negocio o proyecto.</div>
+            </div>
+            <div class="mini-item">
+              <span>3</span>
+              <div><strong>Ejemplo.</strong> La página "Contacto" dentro de una escuela en línea.</div>
+            </div>
+          </div>
+        </article>
+
+        <aside class="visual-panel">
+          <div class="browser-window">
+            <div class="browser-dots" aria-hidden="true">
+              <i></i><i></i><i></i>
+            </div>
+            <div class="address-bar">
+              <span class="url-chip active">www.miescuela.com/inicio</span>
+              <span class="url-chip">www.miescuela.com/cursos</span>
+              <span class="url-chip">www.miescuela.com/contacto</span>
+            </div>
+            <div class="browser-screen">
+              <div class="screen-block header">Encabezado del sitio</div>
+              <div class="screen-block content">Contenido de una sola página</div>
+              <div class="screen-block footer">Pie de página</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section reveal" id="conceptos">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Tema 2</span>
+          <h2>Conceptos básicos del diseño web</h2>
+        </div>
+        <p>Explora cada concepto y luego usa el laboratorio de URL para reconocer sus partes.</p>
+      </div>
+
+      <div class="concept-layout">
+        <div class="concept-buttons" aria-label="Conceptos básicos">
+          <button class="concept-button" type="button" data-concept="dominio" aria-pressed="true">
+            <strong>Dominio</strong>
+            <span>El nombre con el que encontramos un sitio en internet.</span>
+          </button>
+          <button class="concept-button" type="button" data-concept="url" aria-pressed="false">
+            <strong>URL</strong>
+            <span>La dirección completa que apunta a un recurso o página exacta.</span>
+          </button>
+          <button class="concept-button" type="button" data-concept="hosting" aria-pressed="false">
+            <strong>Hosting</strong>
+            <span>El espacio o servidor donde se guardan los archivos de la página.</span>
+          </button>
+          <button class="concept-button" type="button" data-concept="applets" aria-pressed="false">
+            <strong>Applets</strong>
+            <span>Pequeños programas incrustados en páginas; hoy casi no se usan.</span>
+          </button>
+        </div>
+
+        <article class="concept-detail" id="concept-detail">
+          <h3>Dominio</h3>
+          <p>
+            El dominio es el nombre fácil de recordar de un sitio web. En lugar de memorizar números del servidor,
+            usamos un nombre como <strong>miescuela.com</strong>.
+          </p>
+          <div class="concept-meta">
+            <div class="badge">Función: identificar</div>
+            <div class="badge">Ejemplo: google.com</div>
+            <div class="badge">Idea clave: nombre del sitio</div>
+          </div>
+          <div class="example-box">
+            <strong>Analogía:</strong> el dominio es como el nombre del lugar al que quieres llegar.
+          </div>
+        </article>
+      </div>
+
+      <div class="url-lab">
+        <h3>Laboratorio visual de URL</h3>
+        <p>Selecciona una parte de la dirección para descubrir qué significa.</p>
+        <div class="url-view">
+          <span class="url-part active" data-url-part="protocol">https://</span>
+          <span class="url-part" data-url-part="subdomain">www.</span>
+          <span class="url-part" data-url-part="domain">academiaweb.com</span>
+          <span class="url-part" data-url-part="path">/curso/html</span>
+          <span class="url-part" data-url-part="query">?tema=estructuras</span>
+        </div>
+        <div class="url-controls">
+          <button class="url-control" type="button" data-url-target="protocol" aria-pressed="true">Protocolo</button>
+          <button class="url-control" type="button" data-url-target="subdomain" aria-pressed="false">Subdominio</button>
+          <button class="url-control" type="button" data-url-target="domain" aria-pressed="false">Dominio</button>
+          <button class="url-control" type="button" data-url-target="path" aria-pressed="false">Ruta</button>
+          <button class="url-control" type="button" data-url-target="query" aria-pressed="false">Parámetro</button>
+        </div>
+        <p class="url-explanation" id="url-explanation">
+          <strong>Protocolo:</strong> indica la forma de comunicación. En la web moderna, normalmente usamos HTTPS.
+        </p>
+      </div>
+    </section>
+
+    <section class="section reveal" id="elementos">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Tema 3</span>
+          <h2>Elementos de una página web</h2>
+        </div>
+        <p>Haz clic en cada parte del esquema para descubrir su función dentro de una página web moderna.</p>
+      </div>
+
+      <div class="lab-grid">
+        <div class="page-map">
+          <div class="layout-row">
+            <button class="layout-button" type="button" data-part="header" aria-pressed="true">
+              Header
+              <small>Encabezado con logo, título o presentación</small>
+            </button>
+          </div>
+          <div class="layout-row">
+            <button class="layout-button" type="button" data-part="nav" aria-pressed="false">
+              Nav
+              <small>Zona de navegación con menús y enlaces</small>
+            </button>
+          </div>
+          <div class="layout-main">
+            <div class="layout-stack">
+              <button class="layout-button" type="button" data-part="main" aria-pressed="false">
+                Main
+                <small>Contenido principal de la página</small>
+              </button>
+              <button class="layout-button" type="button" data-part="section" aria-pressed="false">
+                Section
+                <small>Bloques temáticos agrupados por tema</small>
+              </button>
+              <button class="layout-button" type="button" data-part="article" aria-pressed="false">
+                Article
+                <small>Contenido independiente como una noticia o entrada</small>
+              </button>
+            </div>
+            <button class="layout-button" type="button" data-part="aside" aria-pressed="false">
+              Aside
+              <small>Información complementaria, anuncios o datos extra</small>
+            </button>
+          </div>
+          <div class="layout-row">
+            <button class="layout-button" type="button" data-part="footer" aria-pressed="false">
+              Footer
+              <small>Pie de página con créditos, contacto o avisos</small>
+            </button>
+          </div>
+        </div>
+
+        <article class="part-detail" id="part-detail">
+          <h3>Header</h3>
+          <p>
+            El <strong>header</strong> es la parte superior de la página. Suele contener el nombre del sitio, un logo,
+            una imagen principal o un mensaje de bienvenida.
+          </p>
+          <div class="example-box">
+            <strong>En palabras simples:</strong> es la portada de la página.
+          </div>
+          <div class="code-preview" id="code-preview">
+            <span class="tag">&lt;</span><span class="name">header</span><span class="tag">&gt;</span><br>
+            &nbsp;&nbsp;&lt;h1&gt;Mi sitio web&lt;/h1&gt;<br>
+            <span class="tag">&lt;/</span><span class="name">header</span><span class="tag">&gt;</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="estandares">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Tema 4</span>
+          <h2>Estándares de diseño web (W3C)</h2>
+        </div>
+        <p>El W3C propone recomendaciones para que la web sea más clara, compatible, accesible y ordenada.</p>
+      </div>
+
+      <div class="standards-grid">
+        <article class="standard-card">
+          <h3>¿Qué es el W3C?</h3>
+          <p>Es el World Wide Web Consortium, una organización que promueve estándares para HTML, CSS, accesibilidad y más.</p>
+        </article>
+        <article class="standard-card">
+          <h3>¿Por qué importa?</h3>
+          <p>Porque ayuda a que una página funcione mejor en distintos navegadores, dispositivos y contextos de uso.</p>
+        </article>
+        <article class="standard-card">
+          <h3>¿Qué recomienda?</h3>
+          <p>Usar código limpio, etiquetas semánticas, diseño adaptable, accesibilidad y separación entre estructura y estilo.</p>
+        </article>
+      </div>
+
+      <div class="challenge-layout">
+        <div class="challenge-card">
+          <h3>Activa las buenas prácticas</h3>
+          <p>Marca los elementos que una página debería cumplir para acercarse a los estándares W3C.</p>
+          <div class="check-list">
+            <div class="check-item">
+              HTML semántico
+              <button class="toggle" type="button" data-check="semantic" aria-pressed="false" aria-label="Activar HTML semántico"></button>
+            </div>
+            <div class="check-item">
+              Imágenes con texto alternativo
+              <button class="toggle" type="button" data-check="alt" aria-pressed="false" aria-label="Activar texto alternativo"></button>
+            </div>
+            <div class="check-item">
+              Diseño adaptable a celular
+              <button class="toggle" type="button" data-check="responsive" aria-pressed="false" aria-label="Activar diseño adaptable"></button>
+            </div>
+            <div class="check-item">
+              Separación entre HTML y CSS
+              <button class="toggle" type="button" data-check="separation" aria-pressed="false" aria-label="Activar separación entre HTML y CSS"></button>
+            </div>
+            <div class="check-item">
+              Código ordenado y validable
+              <button class="toggle" type="button" data-check="valid" aria-pressed="false" aria-label="Activar código ordenado"></button>
+            </div>
+          </div>
+        </div>
+
+        <article class="challenge-card">
+          <p class="score-big" id="w3c-score">0%</p>
+          <h3>Nivel de buenas prácticas</h3>
+          <p id="w3c-message">
+            Aún no hay criterios activados. Enciende algunos interruptores para ver cómo mejora una página web.
+          </p>
+          <div class="meter" aria-hidden="true">
+            <div class="meter-bar" id="w3c-meter"></div>
+          </div>
+          <div class="status-pill" id="w3c-status">Estado inicial</div>
+          <div class="example-box">
+            <strong>Idea clave:</strong> seguir estándares no vuelve aburrida una página; la vuelve más clara, usable y profesional.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="quiz">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">Cierre</span>
+          <h2>Mini quiz</h2>
+        </div>
+        <p>Respondan las preguntas y revisen la explicación para reforzar conceptos importantes.</p>
+      </div>
+
+      <div class="quiz-shell">
+        <aside class="quiz-progress">
+          <div class="progress-card">
+            <strong id="quiz-progress">1/5</strong>
+            Pregunta actual
+          </div>
+          <div class="progress-card">
+            <strong id="quiz-score">0</strong>
+            Respuestas correctas
+          </div>
+          <div class="progress-card">
+            <strong>Tip</strong>
+            Lee la explicación aunque aciertes. Así se fija mejor la idea.
+          </div>
+        </aside>
+
+        <article class="quiz-card">
+          <h3 id="quiz-question">¿Qué es una página web?</h3>
+          <div class="quiz-options" id="quiz-options"></div>
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+          <div class="quiz-actions">
+            <button class="button button-primary" type="button" id="quiz-next" disabled>Siguiente</button>
+            <button class="button button-secondary" type="button" id="quiz-reset">Reiniciar quiz</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const comparisonContent = {
+      pagina: {
+        title: "Página web",
+        description: "Una página web es un documento digital que se abre en un navegador. Tiene una dirección propia y suele mostrar información específica, por ejemplo: \"Inicio\", \"Contacto\" o \"Galería\".",
+        analogy: "Una página web es como una hoja de un cuaderno. Tiene contenido puntual y cumple una función concreta.",
+        items: [
+          "Unidad individual. Se ve como una sola pantalla o documento.",
+          "Tema específico. Puede hablar solo de una sección del negocio o proyecto.",
+          "Ejemplo. La página \"Contacto\" dentro de una escuela en línea."
+        ]
+      },
+      sitio: {
+        title: "Sitio web",
+        description: "Un sitio web es el conjunto de páginas web relacionadas entre sí. Comparten el mismo dominio, una misma identidad y normalmente un objetivo común.",
+        analogy: "Un sitio web es como el cuaderno completo. Dentro de él hay varias hojas, es decir, varias páginas web conectadas.",
+        items: [
+          "Conjunto organizado. Reúne varias páginas dentro de una sola estructura.",
+          "Propósito común. Todas las páginas trabajan para el mismo proyecto o marca.",
+          "Ejemplo. Un portal escolar con Inicio, Cursos, Docentes, Blog y Contacto."
+        ]
+      }
+    };
+
+    const conceptContent = {
+      dominio: {
+        title: "Dominio",
+        description: "El dominio es el nombre fácil de recordar de un sitio web. En lugar de memorizar números del servidor, usamos un nombre como miescuela.com.",
+        badges: ["Función: identificar", "Ejemplo: google.com", "Idea clave: nombre del sitio"],
+        example: "Analogía: el dominio es como el nombre del lugar al que quieres llegar."
+      },
+      url: {
+        title: "URL",
+        description: "La URL es la dirección completa que nos lleva a una página o recurso concreto dentro de internet. Incluye varias partes, como protocolo, dominio y ruta.",
+        badges: ["Función: localizar", "Ejemplo: https://miescuela.com/cursos/html", "Idea clave: dirección completa"],
+        example: "Analogía: si el dominio es el nombre del lugar, la URL es la dirección exacta hasta la puerta correcta."
+      },
+      hosting: {
+        title: "Hosting",
+        description: "El hosting es el servicio donde se guardan los archivos de un sitio web para que puedan mostrarse en internet. Sin hosting, la página no tendría dónde vivir.",
+        badges: ["Función: almacenar", "Ejemplo: servidor o espacio web", "Idea clave: casa de los archivos"],
+        example: "Analogía: el hosting es el terreno o edificio donde vive tu sitio web."
+      },
+      applets: {
+        title: "Applets",
+        description: "Los applets eran pequeños programas que se incrustaban en páginas web, especialmente con Java, para añadir funciones interactivas. Hoy casi no se usan porque fueron reemplazados por tecnologías más seguras y modernas como HTML5, CSS y JavaScript.",
+        badges: ["Función: añadir interacción", "Ejemplo: mini programas embebidos", "Idea clave: tecnología antigua"],
+        example: "Analogía: eran como accesorios especiales dentro de una página, pero ahora existen herramientas mucho mejores para lograr lo mismo."
+      }
+    };
+
+    const urlContent = {
+      protocol: "Protocolo: indica la forma de comunicación. En la web moderna, normalmente usamos HTTPS.",
+      subdomain: "Subdominio: es una parte opcional antes del dominio. A menudo se usa \"www\", aunque también pueden existir otros como blog o campus.",
+      domain: "Dominio: es el nombre principal del sitio. Aquí es academiaweb.com.",
+      path: "Ruta: señala una sección o página específica dentro del sitio. En este caso, /curso/html.",
+      query: "Parámetro: envía información adicional en la dirección. Aquí se está indicando el tema que se desea ver."
+    };
+
+    const partContent = {
+      header: {
+        title: "Header",
+        description: "El <strong>header</strong> es la parte superior de la página. Suele contener el nombre del sitio, un logo, una imagen principal o un mensaje de bienvenida.",
+        example: "En palabras simples: es la portada de la página.",
+        code: '&lt;<span class="name">header</span>&gt;<br>&nbsp;&nbsp;&lt;h1&gt;Mi sitio web&lt;/h1&gt;<br>&lt;/<span class="name">header</span>&gt;'
+      },
+      nav: {
+        title: "Nav",
+        description: "La zona <strong>nav</strong> reúne menús y enlaces para moverse entre las diferentes secciones o páginas del sitio.",
+        example: "En palabras simples: es el mapa de caminos para navegar.",
+        code: '&lt;<span class="name">nav</span>&gt;<br>&nbsp;&nbsp;&lt;a href=\"#inicio\"&gt;Inicio&lt;/a&gt;<br>&nbsp;&nbsp;&lt;a href=\"#contacto\"&gt;Contacto&lt;/a&gt;<br>&lt;/<span class="name">nav</span>&gt;'
+      },
+      main: {
+        title: "Main",
+        description: "El elemento <strong>main</strong> contiene la información principal de la página. Es la parte más importante para el visitante.",
+        example: "En palabras simples: es el corazón del contenido.",
+        code: '&lt;<span class="name">main</span>&gt;<br>&nbsp;&nbsp;&lt;p&gt;Contenido principal&lt;/p&gt;<br>&lt;/<span class="name">main</span>&gt;'
+      },
+      section: {
+        title: "Section",
+        description: "Una <strong>section</strong> agrupa contenido relacionado por tema. Ayuda a dividir la información de forma ordenada.",
+        example: "En palabras simples: es un bloque temático dentro de la página.",
+        code: '&lt;<span class="name">section</span>&gt;<br>&nbsp;&nbsp;&lt;h2&gt;Nuestros cursos&lt;/h2&gt;<br>&lt;/<span class="name">section</span>&gt;'
+      },
+      article: {
+        title: "Article",
+        description: "<strong>Article</strong> se usa para contenido que puede entenderse por sí solo, como una noticia, publicación o entrada de blog.",
+        example: "En palabras simples: es una pieza independiente de contenido.",
+        code: '&lt;<span class="name">article</span>&gt;<br>&nbsp;&nbsp;&lt;h2&gt;Novedades&lt;/h2&gt;<br>&nbsp;&nbsp;&lt;p&gt;Texto del artículo&lt;/p&gt;<br>&lt;/<span class="name">article</span>&gt;'
+      },
+      aside: {
+        title: "Aside",
+        description: "<strong>Aside</strong> contiene información secundaria o complementaria, como anuncios, enlaces extra, datos curiosos o sugerencias.",
+        example: "En palabras simples: es un costado con apoyo adicional.",
+        code: '&lt;<span class="name">aside</span>&gt;<br>&nbsp;&nbsp;&lt;p&gt;Enlaces recomendados&lt;/p&gt;<br>&lt;/<span class="name">aside</span>&gt;'
+      },
+      footer: {
+        title: "Footer",
+        description: "El <strong>footer</strong> es el pie de página. Allí suele aparecer información de contacto, derechos, redes sociales o enlaces finales.",
+        example: "En palabras simples: es el cierre formal de la página.",
+        code: '&lt;<span class="name">footer</span>&gt;<br>&nbsp;&nbsp;&lt;p&gt;Contacto y avisos legales&lt;/p&gt;<br>&lt;/<span class="name">footer</span>&gt;'
+      }
+    };
+
+    const quizQuestions = [
+      {
+        question: "¿Qué describe mejor a una página web?",
+        options: [
+          "Un documento digital que se abre en el navegador",
+          "Todo internet reunido en un solo sistema",
+          "Un servidor físico donde se guardan archivos"
+        ],
+        answer: 0,
+        explanation: "Correcto: una página web es una unidad individual de contenido que se visualiza en el navegador."
+      },
+      {
+        question: "¿Qué es un sitio web?",
+        options: [
+          "Una sola imagen en internet",
+          "El conjunto de varias páginas web relacionadas",
+          "Solo la dirección escrita en la barra del navegador"
+        ],
+        answer: 1,
+        explanation: "Un sitio web reúne varias páginas conectadas y normalmente comparte un mismo dominio."
+      },
+      {
+        question: "¿Qué función cumple el dominio?",
+        options: [
+          "Guardar los archivos de la página",
+          "Servir como nombre identificable del sitio",
+          "Agregar animaciones automáticas"
+        ],
+        answer: 1,
+        explanation: "El dominio es el nombre fácil de recordar con el que localizamos un sitio web."
+      },
+      {
+        question: "¿Cuál de estos conceptos se refiere al lugar donde vive la página web?",
+        options: [
+          "Hosting",
+          "URL",
+          "Applet"
+        ],
+        answer: 0,
+        explanation: "El hosting es el espacio o servidor donde se almacenan los archivos del sitio."
+      },
+      {
+        question: "¿Para qué sirven los estándares del W3C?",
+        options: [
+          "Para limitar la creatividad del diseño",
+          "Para que la web sea más compatible, accesible y ordenada",
+          "Para reemplazar HTML por completo"
+        ],
+        answer: 1,
+        explanation: "Las recomendaciones del W3C ayudan a crear páginas más claras, consistentes y funcionales."
+      }
+    ];
+
+    const viewButtons = document.querySelectorAll("[data-view]");
+    const viewPanel = document.getElementById("view-panel");
+    const urlChips = document.querySelectorAll(".url-chip");
+
+    function renderView(view) {
+      const data = comparisonContent[view];
+      viewButtons.forEach((button) => {
+        const active = button.dataset.view === view;
+        button.setAttribute("aria-pressed", String(active));
+      });
+
+      viewPanel.innerHTML = `
+        <h3>${data.title}</h3>
+        <p>${data.description}</p>
+        <div class="analogy"><strong>Comparación sencilla:</strong> ${data.analogy}</div>
+        <div class="mini-list">
+          ${data.items.map((item, index) => `
+            <div class="mini-item">
+              <span>${index + 1}</span>
+              <div>${item}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+
+      urlChips.forEach((chip, index) => {
+        chip.classList.toggle("active", view === "pagina" ? index === 0 : true);
+      });
+    }
+
+    viewButtons.forEach((button) => {
+      button.addEventListener("click", () => renderView(button.dataset.view));
+    });
+
+    const conceptButtons = document.querySelectorAll(".concept-button");
+    const conceptDetail = document.getElementById("concept-detail");
+
+    function renderConcept(key) {
+      const data = conceptContent[key];
+      conceptButtons.forEach((button) => {
+        const active = button.dataset.concept === key;
+        button.setAttribute("aria-pressed", String(active));
+      });
+
+      conceptDetail.innerHTML = `
+        <h3>${data.title}</h3>
+        <p>${data.description}</p>
+        <div class="concept-meta">
+          ${data.badges.map((badge) => `<div class="badge">${badge}</div>`).join("")}
+        </div>
+        <div class="example-box"><strong>Analogía:</strong> ${data.example.replace("Analogía: ", "")}</div>
+      `;
+    }
+
+    conceptButtons.forEach((button) => {
+      button.addEventListener("click", () => renderConcept(button.dataset.concept));
+    });
+
+    const urlControls = document.querySelectorAll(".url-control");
+    const urlParts = document.querySelectorAll(".url-part");
+    const urlExplanation = document.getElementById("url-explanation");
+
+    function renderUrlPart(part) {
+      urlControls.forEach((button) => {
+        const active = button.dataset.urlTarget === part;
+        button.setAttribute("aria-pressed", String(active));
+      });
+
+      urlParts.forEach((piece) => {
+        piece.classList.toggle("active", piece.dataset.urlPart === part);
+      });
+
+      const labelMap = {
+        protocol: "Protocolo",
+        subdomain: "Subdominio",
+        domain: "Dominio",
+        path: "Ruta",
+        query: "Parámetro"
+      };
+
+      urlExplanation.innerHTML = `<strong>${labelMap[part]}:</strong> ${urlContent[part].replace(labelMap[part] + ": ", "")}`;
+    }
+
+    urlControls.forEach((button) => {
+      button.addEventListener("click", () => renderUrlPart(button.dataset.urlTarget));
+    });
+
+    const partButtons = document.querySelectorAll(".layout-button");
+    const partDetail = document.getElementById("part-detail");
+    const codePreview = document.getElementById("code-preview");
+
+    function renderPart(part) {
+      const data = partContent[part];
+      partButtons.forEach((button) => {
+        const active = button.dataset.part === part;
+        button.setAttribute("aria-pressed", String(active));
+      });
+
+      partDetail.querySelector("h3").textContent = data.title;
+      partDetail.querySelector("p").innerHTML = data.description;
+      partDetail.querySelector(".example-box").innerHTML = `<strong>En palabras simples:</strong> ${data.example.replace("En palabras simples: ", "")}`;
+      codePreview.innerHTML = data.code
+        .replaceAll("&lt;", '<span class="tag">&lt;</span>')
+        .replaceAll("&gt;", '<span class="tag">&gt;</span>');
+    }
+
+    partButtons.forEach((button) => {
+      button.addEventListener("click", () => renderPart(button.dataset.part));
+    });
+
+    const checkToggles = document.querySelectorAll(".toggle");
+    const w3cScore = document.getElementById("w3c-score");
+    const w3cMeter = document.getElementById("w3c-meter");
+    const w3cMessage = document.getElementById("w3c-message");
+    const w3cStatus = document.getElementById("w3c-status");
+
+    function updateW3CScore() {
+      const active = Array.from(checkToggles).filter((toggle) => toggle.getAttribute("aria-pressed") === "true").length;
+      const percent = Math.round((active / checkToggles.length) * 100);
+
+      w3cScore.textContent = `${percent}%`;
+      w3cMeter.style.width = `${percent}%`;
+
+      if (percent === 0) {
+        w3cMessage.textContent = "Aún no hay criterios activados. Enciende algunos interruptores para ver cómo mejora una página web.";
+        w3cStatus.textContent = "Estado inicial";
+      } else if (percent < 50) {
+        w3cMessage.textContent = "La página ya empieza a mejorar, pero todavía faltan prácticas importantes para que sea más clara y usable.";
+        w3cStatus.textContent = "Nivel básico";
+      } else if (percent < 100) {
+        w3cMessage.textContent = "Muy bien. Tu página ya sigue varias recomendaciones del W3C y ofrece una experiencia más sólida.";
+        w3cStatus.textContent = "Buen avance";
+      } else {
+        w3cMessage.textContent = "Excelente. Se activaron todas las buenas prácticas propuestas y la página está mucho más cerca de un estándar profesional.";
+        w3cStatus.textContent = "Muy bien estructurada";
+      }
+    }
+
+    checkToggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const next = toggle.getAttribute("aria-pressed") !== "true";
+        toggle.setAttribute("aria-pressed", String(next));
+        updateW3CScore();
+      });
+    });
+
+    const quizQuestion = document.getElementById("quiz-question");
+    const quizOptions = document.getElementById("quiz-options");
+    const quizFeedback = document.getElementById("quiz-feedback");
+    const quizProgress = document.getElementById("quiz-progress");
+    const quizScore = document.getElementById("quiz-score");
+    const quizNext = document.getElementById("quiz-next");
+    const quizReset = document.getElementById("quiz-reset");
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+    function renderQuiz() {
+      const item = quizQuestions[currentQuestion];
+      answered = false;
+      quizQuestion.textContent = item.question;
+      quizFeedback.textContent = "";
+      quizNext.disabled = true;
+      quizProgress.textContent = `${currentQuestion + 1}/${quizQuestions.length}`;
+      quizScore.textContent = score;
+
+      quizOptions.innerHTML = "";
+      item.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "quiz-option";
+        button.textContent = option;
+        button.addEventListener("click", () => handleAnswer(index));
+        quizOptions.appendChild(button);
+      });
+
+      quizNext.textContent = currentQuestion === quizQuestions.length - 1 ? "Ver resultado" : "Siguiente";
+    }
+
+    function handleAnswer(index) {
+      if (answered) return;
+
+      answered = true;
+      const item = quizQuestions[currentQuestion];
+      const optionButtons = quizOptions.querySelectorAll(".quiz-option");
+
+      optionButtons.forEach((button, buttonIndex) => {
+        button.disabled = true;
+        if (buttonIndex === item.answer) button.classList.add("correct");
+        if (buttonIndex === index && buttonIndex !== item.answer) button.classList.add("wrong");
+      });
+
+      if (index === item.answer) {
+        score += 1;
+        quizScore.textContent = score;
+        quizFeedback.innerHTML = `<strong>Correcto.</strong> ${item.explanation}`;
+      } else {
+        quizFeedback.innerHTML = `<strong>Respuesta incorrecta.</strong> ${item.explanation}`;
+      }
+
+      quizNext.disabled = false;
+    }
+
+    quizNext.addEventListener("click", () => {
+      if (currentQuestion < quizQuestions.length - 1) {
+        currentQuestion += 1;
+        renderQuiz();
+        return;
+      }
+
+      const finalPercent = Math.round((score / quizQuestions.length) * 100);
+      quizQuestion.textContent = "Resultado final";
+      quizOptions.innerHTML = "";
+      quizFeedback.innerHTML = `Obtuviste <strong>${score} de ${quizQuestions.length}</strong> respuestas correctas (${finalPercent}%).`;
+      quizNext.disabled = true;
+    });
+
+    quizReset.addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      renderQuiz();
+    });
+
+    const sections = document.querySelectorAll("main .section, .hero");
+    const navLinks = document.querySelectorAll(".nav-links a");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+        if (entry.isIntersecting && entry.target.id) {
+          navLinks.forEach((link) => {
+            const active = link.getAttribute("href") === `#${entry.target.id}`;
+            link.classList.toggle("active", active);
+          });
+        }
+      });
+    }, { threshold: 0.35 });
+
+    document.querySelectorAll(".reveal").forEach((section) => observer.observe(section));
+    sections.forEach((section) => observer.observe(section));
+
+    renderView("pagina");
+    renderConcept("dominio");
+    renderUrlPart("protocol");
+    renderPart("header");
+    updateW3CScore();
+    renderQuiz();
+  </script>
+</body>
+</html>
